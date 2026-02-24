@@ -71,9 +71,18 @@ app.get("/listings/:id/edit", async (req,res) => {
 
 //Update Route
 app.put("/listings/:id", async (req, res) => {
-    let {id} = req.params;
-    await Listing.findByIdAndUpdate(id, {...req.body.listing});
-   res.redirect(`/listings/${id}`);
+    let { id } = req.params;
+
+    let updatedData = req.body.listing;
+
+    updatedData.image = {
+        url: updatedData.image,
+        filename: "listingimage"
+    };
+
+    await Listing.findByIdAndUpdate(id, updatedData);
+
+    res.redirect(`/listings/${id}`);
 });
 
 //Delete Route
